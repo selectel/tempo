@@ -32,7 +32,7 @@ tempo_strptime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
 
     return TUPLE_OK(TUPLE2(TUPLE3(INT(tm.tm_year),
                                   INT(tm.tm_mon),
-                                  INT(tm.mday)),
+                                  INT(tm.tm_mday)),
                            TUPLE3(INT(tm.tm_hour),
                                   INT(tm.tm_min),
                                   INT(tm.tm_sec))));
