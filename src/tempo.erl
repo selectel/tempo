@@ -4,7 +4,7 @@
 -compile([export_all]).
 
 -spec strptime(binary(), binary()) -> {ok, calendar:datetime()}
-                                    | {error, atom()}.
+                                    | {error, atom() | format_mismatch}.
 strptime(_Format, _DT) -> ?STUB.
 
 -spec strftime(binary(), calendar:datetime()) -> {ok, binary()}.
