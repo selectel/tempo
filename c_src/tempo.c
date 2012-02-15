@@ -28,7 +28,7 @@ tempo_strptime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
     }
 
     memset(&tm, 0, sizeof(struct tm));
-    strptime(format.data, buf.data, &tm);
+    strptime((const char *) format.data, (const char *) buf.data, &tm);
 
     return TUPLE_OK(TUPLE2(TUPLE3(INT(tm.tm_year),
                                   INT(tm.tm_mon),
