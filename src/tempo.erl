@@ -1,6 +1,14 @@
 -module(tempo).
 -on_load(nif_init/0).
 -define(STUB, not_loaded(?LINE)).
+-compile([export_all]).
+
+-spec strptime(binary(), binary()) -> {ok, calendar:datetime()}
+                                    | {error, atom()}.
+strptime(_Format, _DT) -> ?STUB.
+
+-spec strftime(binary(), calendar:datetime()) -> {ok, binary()}.
+strftime(_Format, _DT) -> ?STUB.
 
 -spec nif_init() -> ok | {error, _}.
 nif_init() ->
