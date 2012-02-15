@@ -1,0 +1,8 @@
+{application, ecirca,
+ [
+  {description, "Circular arrays for Erlang"},
+  {vsn, "1.0.1"},
+  {registered, []},
+  {applications, [kernel,
+                  stdlib]}
+ ]}.

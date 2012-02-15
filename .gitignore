@@ -1,0 +1,9 @@
+*~
+*.dump
+*.beam
+ebin/
+deps/
+*.o
+*.so
+.eunit/
+core
