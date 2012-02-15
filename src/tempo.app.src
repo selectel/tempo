@@ -1,0 +1,8 @@
+{application, tempo,
+ [
+  {description, "Date and time formatting and parsing for Erlang"},
+  {vsn, "1.0"},
+  {registered, []},
+  {applications, [kernel,
+                  stdlib]}
+ ]}.
