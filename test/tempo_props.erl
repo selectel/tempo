@@ -14,9 +14,9 @@ prop_strftime_strptime() ->
     ?FORALL({Time, Format}, {integer(), format()},
             begin
                 try
-                    {ok, Buffer}  = tempo:strftime(Format, Time),
-                    {ok, NewTime} = tempo:strptime(Format, Buffer),
-                    {ok, NewBuffer} = tempo:strftime(Format, NewTime),
+                    {ok, Buffer}  = tempo:format(Format, {timestamp, Time}),
+                    {ok, NewTime} = tempo:parse(Format, Buffer, timestamp),
+                    {ok, NewBuffer} = tempo:format(Format, {timestamp, NewTime}),
                     NewBuffer == Buffer
                 catch
                     _:_ -> false
