@@ -137,7 +137,8 @@ format_now(Format, {MegaSecs, Secs, _MicroSecs}) ->
     Timestamp = ?M * MegaSecs + Secs,
     format_timestamp(Format, Timestamp).
 
-%% @doc @equiv format(Format, Datetime, datetime)
+%% @doc Helper function similar to format/3.
+%%      @equiv format(Format, Datetime, datetime)
 %% @end
 -spec format_datetime(format(), ?c:datetime()) -> {ok, binary()}
                                                 | {error, invalid_time}.
