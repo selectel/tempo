@@ -11,6 +11,7 @@
 #define TUPLE_ERROR(A)  TUPLE2(ATOM_ERROR, A)
 #define INT64(A)        enif_make_int64(env, A)
 #define ATOM(A)         enif_make_atom(env, A)
+#define UNUSED          __attribute__((unused))
 
 extern char *strptime(const char *s, const char *format, struct tm *tm);
 extern size_t strftime(char *s, size_t max, const char *format,
@@ -90,10 +91,45 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     return TUPLE_OK(buf);
 }
 
+static int
+load(ErlNifEnv* env UNUSED,
+     void** priv UNUSED,
+     ERL_NIF_TERM info UNUSED)
+{
+    return 0;
+}
+
+
+static int
+reload(ErlNifEnv* env UNUSED,
+       void** priv UNUSED,
+       ERL_NIF_TERM info UNUSED)
+{
+    return 0;
+}
+
+static int
+upgrade(ErlNifEnv* env UNUSED,
+        void** priv,
+        void** old_priv,
+        ERL_NIF_TERM info UNUSED)
+{
+    *priv = *old_priv;
+    return 0;
+}
+
+static void
+unload(ErlNifEnv* env UNUSED,
+       void* priv)
+{
+    enif_free(priv);
+    return;
+}
+
 static ErlNifFunc tempo_funcs[] =
 {
     {"strptime", 2, tempo_strptime},
     {"strftime", 2, tempo_strftime}
 };
 
-ERL_NIF_INIT(tempo, tempo_funcs, NULL, NULL, NULL, NULL)
+ERL_NIF_INIT(tempo, tempo_funcs, &load, &reload, &upgrade, &unload)
