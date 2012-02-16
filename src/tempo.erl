@@ -75,14 +75,16 @@ parse(Format, Bin, Type) ->
         datetime  -> parse_datetime(Format, Bin)
     end.
 
-%% @doc @equiv parse(Format, Binary, timestamp)
+%% @doc Helper function similar to parse/3.
+%%      @equiv parse(Format, Binary, timestamp)
 %% @end
 -spec parse_timestamp(format(), binary()) -> {ok, unix_timestamp()}
                                            | {error, format_mismatch}.
 parse_timestamp(Format, Bin) ->
     strptime(convert_format(Format), Bin).
 
-%% @doc @equiv parse(Format, Binary, now)
+%% @doc Helper function similar to parse/3.
+%%      @equiv parse(Format, Binary, now)
 %% @end
 -spec parse_now(format(), binary()) -> {ok, erlang:timestamp()}
                                      | {error, format_mismatch}.
@@ -92,7 +94,8 @@ parse_now(Format, Bin) ->
     Secs = Timestamp rem ?M,
     {MegaSecs, Secs, 0}.
 
-%% @doc @equiv parse(Format, Binary, datetime)
+%% @doc Helper function similar to parse/3.
+%%      @equiv parse(Format, Binary, datetime)
 %% @end
 -spec parse_datetime(format(), binary()) -> {ok, ?c:datetime()}
                                           | {error, format_mismatch}.
@@ -122,14 +125,16 @@ format(Format, Datetime, Type) ->
         datetime  -> format_datetime(Format, Datetime)
     end.
 
-%% @doc @equiv format(Format, Datetime, timestamp)
+%% @doc Helper function similar to format/3.
+%%      @equiv format(Format, Datetime, timestamp)
 %% @end
 -spec format_timestamp(format(), unix_timestamp()) -> {ok, binary()}
                                                     | {error, invalid_time}.
 format_timestamp(Format, Timestamp) ->
     strftime(convert_format(Format), Timestamp).
 
-%% @doc @equiv format(Format, Datetime, now)
+%% @doc Helper function similar to format/3.
+%%      @equiv format(Format, Datetime, now)
 %% @end
 -spec format_now(format(), erlang:timestamp()) -> {ok, binary()}
                                                 | {error, invalid_time}.

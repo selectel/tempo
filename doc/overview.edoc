@@ -1,0 +1,17 @@
+@title Overview
+@author Dmitry Groshev <groshev@selectel.ru>
+@author Sergey Levedev <superbobry@selectel.ru>
+
+@doc
+Tempo: NIF-based date and time parsing/formatting
+=================================================
+This library provides interface to libc's strptime/strftime with nice and
+handy API.
+
+Is it any good?
+---------------
+Yes.
+
+Last updated
+------------
+{@date} {@time}
