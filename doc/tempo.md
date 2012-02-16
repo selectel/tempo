@@ -85,7 +85,7 @@ rfc1123, rfc2822. In the latter case standard format string will be used.
 ##Function Index##
 
 
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#format-2">format/2</a></td><td>Formats {Type, Datetime} tuple according to Format.</td></tr><tr><td valign="top"><a href="#format-3">format/3</a></td><td>Formats Datetime according to Format.</td></tr><tr><td valign="top"><a href="#format_datetime-2">format_datetime/2</a></td><td>@equiv format(Format, Datetime, datetime).</td></tr><tr><td valign="top"><a href="#format_now-2">format_now/2</a></td><td>@equiv format(Format, Datetime, now).</td></tr><tr><td valign="top"><a href="#format_timestamp-2">format_timestamp/2</a></td><td>@equiv format(Format, Datetime, timestamp).</td></tr><tr><td valign="top"><a href="#parse-2">parse/2</a></td><td>Parses {Type, Binary} tuple according to provided format, returns
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#format-2">format/2</a></td><td>Formats {Type, Datetime} tuple according to Format.</td></tr><tr><td valign="top"><a href="#format-3">format/3</a></td><td>Formats Datetime according to Format.</td></tr><tr><td valign="top"><a href="#format_datetime-2">format_datetime/2</a></td><td>Helper function similar to format/3.</td></tr><tr><td valign="top"><a href="#format_now-2">format_now/2</a></td><td>@equiv format(Format, Datetime, now).</td></tr><tr><td valign="top"><a href="#format_timestamp-2">format_timestamp/2</a></td><td>@equiv format(Format, Datetime, timestamp).</td></tr><tr><td valign="top"><a href="#parse-2">parse/2</a></td><td>Parses {Type, Binary} tuple according to provided format, returns
 ok/error tuples with datetime in format that depends on atom Type.</td></tr><tr><td valign="top"><a href="#parse-3">parse/3</a></td><td>Parses Binary according to Format and returns ok/error tuple with
 datetime in format that depends on atom Type.</td></tr><tr><td valign="top"><a href="#parse_datetime-2">parse_datetime/2</a></td><td>@equiv parse(Format, Binary, datetime).</td></tr><tr><td valign="top"><a href="#parse_now-2">parse_now/2</a></td><td>@equiv parse(Format, Binary, now).</td></tr><tr><td valign="top"><a href="#parse_timestamp-2">parse_timestamp/2</a></td><td>@equiv parse(Format, Binary, timestamp).</td></tr></table>
 
@@ -137,7 +137,9 @@ Datetime will be handled depends on Type.<a name="format_datetime-2"></a>
 
 
 
-@equiv format(Format, Datetime, datetime)<a name="format_now-2"></a>
+Equivalent to [`format(Format, Datetime, datetime)`](#format-3).
+
+Helper function similar to format/3.<a name="format_now-2"></a>
 
 ###format_now/2##
 
