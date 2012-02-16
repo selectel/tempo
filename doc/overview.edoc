@@ -8,9 +8,11 @@ Tempo: NIF-based date and time parsing/formatting
 This library provides interface to libc's strptime/strftime with nice and
 handy API.
 
+
 Is it any good?
 ---------------
 Yes.
+
 
 Last updated
 ------------
