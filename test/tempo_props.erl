@@ -56,7 +56,7 @@ prop_format_parse_now() ->
                 {ok, Buffer} = tempo:format(Format, Now, now),
                 {ok, {MegaSecs, Secs, 0}} == tempo:parse(Format, Buffer, now)
             catch
-                _:_ -> false
+                _:e -> false
             end).
 
 prop_format_parse_datetime() ->

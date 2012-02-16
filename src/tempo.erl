@@ -89,10 +89,10 @@ parse_unix(Format, Bin) ->
 -spec parse_now(format(), binary()) -> {ok, erlang:timestamp()}
                                      | {error, format_mismatch}.
 parse_now(Format, Bin) ->
-    Timestamp = parse_unix(Format, Bin),
+    {ok, Timestamp} = parse_unix(Format, Bin),
     MegaSecs = Timestamp div ?M,
     Secs = Timestamp rem ?M,
-    {MegaSecs, Secs, 0}.
+    {ok, {MegaSecs, Secs, 0}}.
 
 %% @doc Helper function similar to parse/3.
 %%      @equiv parse(Format, Binary, datetime)
@@ -100,8 +100,9 @@ parse_now(Format, Bin) ->
 -spec parse_datetime(format(), binary()) -> {ok, ?c:datetime()}
                                           | {error, format_mismatch}.
 parse_datetime(Format, Bin) ->
-    Timestamp = parse_unix(Format, Bin),
-    ?c:gregorian_seconds_to_datetime(?EPOCH_ZERO + Timestamp).
+    {ok, Timestamp} = parse_unix(Format, Bin),
+    DT = ?c:gregorian_seconds_to_datetime(?EPOCH_ZERO + Timestamp),
+    {ok, DT}.
 
 %% @doc Formats {Type, Datetime} tuple according to Format. The way in which
 %%      Datetime will be handled depends on Type.
