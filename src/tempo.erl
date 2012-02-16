@@ -39,7 +39,7 @@
                                                       {0, 0, 0}})).
 -ifdef(DEBUG).
 -compile([export_all]).
--endif().
+-endif.
 
 
 -type unix_timestamp() :: pos_integer().
