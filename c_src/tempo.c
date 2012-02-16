@@ -3,14 +3,12 @@
 #include "erl_nif.h"
 
 #define MAX_SIZE        255
-#define ATOM_OK         enif_make_atom(env, "ok")
-#define ATOM_ERROR      enif_make_atom(env, "error")
+#define ATOM_OK         ATOM("ok")
+#define ATOM_ERROR      ATOM("error")
 #define BADARG          enif_make_badarg(env)
 #define TUPLE2(A, B)    enif_make_tuple2(env, A, B)
-#define TUPLE3(A, B, C) enif_make_tuple3(env, A, B, C)
 #define TUPLE_OK(A)     TUPLE2(ATOM_OK, A)
 #define TUPLE_ERROR(A)  TUPLE2(ATOM_ERROR, A)
-#define INT(A)          enif_make_int(env, A)
 #define INT64(A)        enif_make_int64(env, A)
 #define ATOM(A)         enif_make_atom(env, A)
 
