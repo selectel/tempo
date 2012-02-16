@@ -11,6 +11,7 @@
 #define TUPLE_OK(A)     TUPLE2(ATOM_OK, A)
 #define TUPLE_ERROR(A)  TUPLE2(ATOM_ERROR, A)
 #define INT(A)          enif_make_int(env, A)
+#define INT64(A)        enif_make_int64(env, A)
 #define ATOM(A)         enif_make_atom(env, A)
 
 inline unsigned enif_get_binary_str(const ErlNifBinary *bin, char *buf)
@@ -29,6 +30,7 @@ static ERL_NIF_TERM
 tempo_strptime(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
 {
     ErlNifBinary format, buf;
+    ErlNifSInt64 clock = 0;
     char format_str[MAX_SIZE], buf_str[MAX_SIZE];
     struct tm tm;
 
@@ -42,13 +44,16 @@ tempo_strptime(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
         return BADARG;
     }
 
-    memset(&tm, 0, sizeof(struct tm));
+    /* HACK(Sergei): since 'libc' doesn't provide us with a way to properly
+       initialize 'tm' struct, we default it to '0' UNIX time. */
+    gmtime_r(&clock, &tm);
 
-    if (strptime(buf_str, format_str, &tm) == (char *) NULL) {
+    if (strptime(buf_str, format_str, &tm) == NULL) {
         return TUPLE_ERROR(ATOM("format_mismatch"));
     }
 
-    return TUPLE_OK(INT(timegm(&tm)));
+    clock = timegm(&tm);
+    return TUPLE_OK(INT64(clock));
 }
 
 static ERL_NIF_TERM
