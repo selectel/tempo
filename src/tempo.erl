@@ -3,11 +3,12 @@
 -define(STUB, not_loaded(?LINE)).
 -compile([export_all]).
 
--spec strptime(binary(), binary()) -> {ok, calendar:datetime()}
-                                    | {error, atom() | format_mismatch}.
+-spec strptime(binary(), binary()) -> {ok, integer()}
+                                    | {error, format_mismatch}.
 strptime(_Format, _DT) -> ?STUB.
 
--spec strftime(binary(), calendar:datetime()) -> {ok, binary()}.
+-spec strftime(binary(), integer()) -> {ok, binary()}
+                                     | {error, invalid_time}.
 strftime(_Format, _DT) -> ?STUB.
 
 -spec nif_init() -> ok | {error, _}.
