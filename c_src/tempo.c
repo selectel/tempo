@@ -59,7 +59,7 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     ErlNifBinary format;
     char format_str[MAX_SIZE], buf_str[MAX_SIZE];
     size_t buf_len;
-    struct tm *tm = NULL;
+    struct tm tm;
 
     if (argc != 2
         || !enif_is_binary(env, argv[0])
@@ -70,11 +70,13 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         return BADARG;
     }
 
-    if ((tm = gmtime((time_t *) &clock)) == NULL) {
+    memset(&tm, 0, sizeof(struct tm));
+
+    if (gmtime_r((time_t *) &clock, &tm) == NULL) {
         return TUPLE_ERROR(ATOM("invalid_time"));
     }
 
-    buf_len = strftime(buf_str, MAX_SIZE, format_str, tm);
+    buf_len = strftime(buf_str, MAX_SIZE, format_str, &tm);
     memcpy(enif_make_new_binary(env, buf_len, &buf),
            &buf_str, buf_len);
 
