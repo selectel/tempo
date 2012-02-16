@@ -11,14 +11,14 @@
 %%% Some functions in this module takes atom Type as an input. It
 %%% encodes an exact datetime format; here are possible Type values:
 %%%
-%%% * timestamp - Unix timestamp (positive integer denoting number of
-%%%               seconds since 1 Jan 1970;
-%%% * now       - erlang:now() format: tuple with 3 values, {MegaSeconds,
-%%%               Seconds, MilliSeconds}, denoting number of MegaSeconds,
-%%%               Seconds and MilliSeconds from 1 Jan 1970, respectivelly.
-%%% * datetime  - calendar:datetime() format for GMT: tuple
-%%%               {{Year, Month, Day}, {Hour, Minute, Seconds}}, denoting
-%%%               GMT date and time.
+%%% * unix     - Unix timestamp (positive integer denoting number of
+%%%              seconds since 1 Jan 1970;
+%%% * now      - erlang:now() format: tuple with 3 values, {MegaSeconds,
+%%%              Seconds, MilliSeconds}, denoting number of MegaSeconds,
+%%%              Seconds and MilliSeconds from 1 Jan 1970, respectivelly.
+%%% * datetime - calendar:datetime() format for GMT: tuple
+%%%              {{Year, Month, Day}, {Hour, Minute, Seconds}}, denoting
+%%%              GMT date and time.
 %%%
 %%% There is also Format argument, which can be a binary (in the format
 %%% similar to strptime/strftime's) or one of following atoms: iso8601,
@@ -29,9 +29,9 @@
 -module(tempo).
 -on_load(nif_init/0).
 -export([parse/2, parse/3,
-         parse_timestamp/2, parse_now/2, parse_datetime/2,
+         parse_unix/2, parse_now/2, parse_datetime/2,
          format/2, format/3,
-         format_timestamp/2, format_now/2, format_datetime/2]).
+         format_unix/2, format_now/2, format_datetime/2]).
 -define(STUB, not_loaded(?LINE)).
 -define(M, 1000000).
 -define(c, calendar).
@@ -47,7 +47,7 @@
                         | iso8601
                         | rfc1123
                         | rfc2822.
--type datetime_type()  :: timestamp
+-type datetime_type()  :: unix
                         | now
                         | datetime.
 -type datetime_value() :: unix_timestamp()
@@ -70,17 +70,17 @@ parse(Format, {Type, Bin}) -> parse(Format, Bin, Type).
                               | {error, format_mismatch}.
 parse(Format, Bin, Type) ->
     case Type of
-        timestamp -> parse_timestamp(Format, Bin);
-        now       -> parse_now(Format, Bin);
-        datetime  -> parse_datetime(Format, Bin)
+        unix     -> parse_unix(Format, Bin);
+        now      -> parse_now(Format, Bin);
+        datetime -> parse_datetime(Format, Bin)
     end.
 
 %% @doc Helper function similar to parse/3.
 %%      @equiv parse(Format, Binary, timestamp)
 %% @end
--spec parse_timestamp(format(), binary()) -> {ok, unix_timestamp()}
-                                           | {error, format_mismatch}.
-parse_timestamp(Format, Bin) ->
+-spec parse_unix(format(), binary()) -> {ok, unix_timestamp()}
+                                      | {error, format_mismatch}.
+parse_unix(Format, Bin) ->
     strptime(convert_format(Format), Bin).
 
 %% @doc Helper function similar to parse/3.
@@ -89,7 +89,7 @@ parse_timestamp(Format, Bin) ->
 -spec parse_now(format(), binary()) -> {ok, erlang:timestamp()}
                                      | {error, format_mismatch}.
 parse_now(Format, Bin) ->
-    Timestamp = parse_timestamp(Format, Bin),
+    Timestamp = parse_unix(Format, Bin),
     MegaSecs = Timestamp div ?M,
     Secs = Timestamp rem ?M,
     {MegaSecs, Secs, 0}.
@@ -100,7 +100,7 @@ parse_now(Format, Bin) ->
 -spec parse_datetime(format(), binary()) -> {ok, ?c:datetime()}
                                           | {error, format_mismatch}.
 parse_datetime(Format, Bin) ->
-    Timestamp = parse_timestamp(Format, Bin),
+    Timestamp = parse_unix(Format, Bin),
     ?c:gregorian_seconds_to_datetime(?EPOCH_ZERO + Timestamp).
 
 %% @doc Formats {Type, Datetime} tuple according to Format. The way in which
@@ -120,17 +120,17 @@ format(Format, {Type, Datetime}) -> format(Format, Datetime, Type).
                                | {error, invalid_time}.
 format(Format, Datetime, Type) ->
     case Type of
-        timestamp -> format_timestamp(Format, Datetime);
-        now       -> format_now(Format, Datetime);
-        datetime  -> format_datetime(Format, Datetime)
+        unix     -> format_unix(Format, Datetime);
+        now      -> format_now(Format, Datetime);
+        datetime -> format_datetime(Format, Datetime)
     end.
 
 %% @doc Helper function similar to format/3.
 %%      @equiv format(Format, Datetime, timestamp)
 %% @end
--spec format_timestamp(format(), unix_timestamp()) -> {ok, binary()}
-                                                    | {error, invalid_time}.
-format_timestamp(Format, Timestamp) ->
+-spec format_unix(format(), unix_timestamp()) -> {ok, binary()}
+                                               | {error, invalid_time}.
+format_unix(Format, Timestamp) ->
     strftime(convert_format(Format), Timestamp).
 
 %% @doc Helper function similar to format/3.
@@ -140,7 +140,7 @@ format_timestamp(Format, Timestamp) ->
                                                 | {error, invalid_time}.
 format_now(Format, {MegaSecs, Secs, _MicroSecs}) ->
     Timestamp = ?M * MegaSecs + Secs,
-    format_timestamp(Format, Timestamp).
+    format_unix(Format, Timestamp).
 
 %% @doc Helper function similar to format/3.
 %%      @equiv format(Format, Datetime, datetime)
@@ -149,7 +149,7 @@ format_now(Format, {MegaSecs, Secs, _MicroSecs}) ->
                                                 | {error, invalid_time}.
 format_datetime(Format, Datetime) ->
     Timestamp = ?c:datetime_to_gregorian_seconds(Datetime) - ?EPOCH_ZERO,
-    format_timestamp(Format, Timestamp).
+    format_unix(Format, Timestamp).
 
 %% @private
 %% @doc Handles "format atoms" so standard formats will be handier to use.
