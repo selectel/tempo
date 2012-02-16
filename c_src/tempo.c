@@ -14,6 +14,10 @@
 #define INT64(A)        enif_make_int64(env, A)
 #define ATOM(A)         enif_make_atom(env, A)
 
+extern char *strptime(const char *s, const char *format, struct tm *tm);
+extern size_t strftime(char *s, size_t max, const char *format,
+                       const struct tm *tm);
+
 inline unsigned enif_get_binary_str(const ErlNifBinary *bin, char *buf)
 {
     unsigned ret = bin->size < MAX_SIZE;
