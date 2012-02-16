@@ -158,7 +158,8 @@ format_datetime(Format, Datetime) ->
 convert_format(X) when is_binary(X) -> X;
 convert_format(iso8601) -> <<"%Y-%m-%dT%H:%M:%S%z">>;
 convert_format(rfc1123) -> <<"%a, %d %b %Y %H:%M:%S GMT">>;
-convert_format(rfc2822) -> <<"%a, %d %b %Y %H:%M:%S +0000">>.
+convert_format(rfc2822) -> <<"%a, %d %b %Y %H:%M:%S +0000">>;
+convert_format(X)       -> error(badarg, [X]).
 
 %% @private
 %% @doc This function will be replaced with NIF's strptime.
