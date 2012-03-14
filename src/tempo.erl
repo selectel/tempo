@@ -8,8 +8,8 @@
 %%% All exported functions in this module can throw "badarg" if
 %%% malformed input is provided.
 %%%
-%%% Some functions in this module takes atom Type as an input. It
-%%% encodes an exact datetime format; here are possible Type values:
+%%% A `Type` argument, accepted by some of the exported functions
+%%% should be one of the following:
 %%%
 %%% * unix     - Unix timestamp (positive integer denoting number of
 %%%              seconds since 1 Jan 1970;
@@ -20,9 +20,10 @@
 %%%              {{Year, Month, Day}, {Hour, Minute, Seconds}}, denoting
 %%%              GMT date and time.
 %%%
-%%% There is also Format argument, which can be a binary (in the format
-%%% similar to strptime/strftime's) or one of following atoms: iso8601,
-%%% rfc1123, rfc2822. In the latter case standard format string will be used.
+%%% A `Format` argument to any of the exported functions is either a
+%%% `binary()` with strptime/strftime compatible tokens or one of the
+%%% following atoms: iso8601, rfc1123, rfc2822. In the latter case
+%%% predefiend format will be used.
 %%% @end
 %%%
 
@@ -153,7 +154,7 @@ format_datetime(Format, Datetime) ->
     format_unix(Format, Timestamp).
 
 %% @private
-%% @doc Handles "format atoms" so standard formats will be handier to use.
+%% @doc Returns a predefined format for a given "format atom".
 %% @end
 -spec convert_format(format()) -> binary().
 convert_format(X) when is_binary(X) -> X;
