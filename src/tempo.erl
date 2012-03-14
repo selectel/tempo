@@ -29,19 +29,20 @@
 
 -module(tempo).
 -on_load(nif_init/0).
--export([parse/2, parse/3,
-         parse_unix/2, parse_now/2, parse_datetime/2,
-         format/2, format/3,
-         format_unix/2, format_now/2, format_datetime/2]).
--define(STUB, not_loaded(?LINE)).
--define(M, 1000000).
--define(c, calendar).
--define(EPOCH_ZERO, ?c:datetime_to_gregorian_seconds({{1970, 1, 1},
-                                                      {0, 0, 0}})).
+
 -ifdef(DEBUG).
 -compile([export_all]).
 -endif.
 
+-define(STUB, not_loaded(?LINE)).
+-define(M, 1000000).
+-define(EPOCH_ZERO,
+        calendar:datetime_to_gregorian_seconds({{1970, 1, 1}, {0, 0, 0}})).
+
+-export([parse/2, parse/3,
+         parse_unix/2, parse_now/2, parse_datetime/2,
+         format/2, format/3,
+         format_unix/2, format_now/2, format_datetime/2]).
 
 -type unix_timestamp() :: pos_integer().
 -type format()         :: binary()
@@ -53,7 +54,7 @@
                         | datetime.
 -type datetime_value() :: unix_timestamp()
                         | erlang:timestamp()
-                        | ?c:datetime().
+                        | calendar:datetime().
 
 %% @doc Parses {Type, Binary} tuple according to provided format, returns
 %%      ok/error tuples with datetime in format that depends on atom Type.
@@ -98,11 +99,11 @@ parse_now(Format, Bin) ->
 %% @doc Helper function similar to parse/3.
 %%      @equiv parse(Format, Binary, datetime)
 %% @end
--spec parse_datetime(format(), binary()) -> {ok, ?c:datetime()}
+-spec parse_datetime(format(), binary()) -> {ok, calendar:datetime()}
                                           | {error, format_mismatch}.
 parse_datetime(Format, Bin) ->
     {ok, Timestamp} = parse_unix(Format, Bin),
-    DT = ?c:gregorian_seconds_to_datetime(?EPOCH_ZERO + Timestamp),
+    DT = calendar:gregorian_seconds_to_datetime(?EPOCH_ZERO + Timestamp),
     {ok, DT}.
 
 %% @doc Formats {Type, Datetime} tuple according to Format. The way in which
@@ -147,10 +148,10 @@ format_now(Format, {MegaSecs, Secs, _MicroSecs}) ->
 %% @doc Helper function similar to format/3.
 %%      @equiv format(Format, Datetime, datetime)
 %% @end
--spec format_datetime(format(), ?c:datetime()) -> {ok, binary()}
+-spec format_datetime(format(), calendar:datetime()) -> {ok, binary()}
                                                 | {error, invalid_time}.
 format_datetime(Format, Datetime) ->
-    Timestamp = ?c:datetime_to_gregorian_seconds(Datetime) - ?EPOCH_ZERO,
+    Timestamp = calendar:datetime_to_gregorian_seconds(Datetime) - ?EPOCH_ZERO,
     format_unix(Format, Timestamp).
 
 %% @private
