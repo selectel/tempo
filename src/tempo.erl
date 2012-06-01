@@ -7,18 +7,20 @@
 %%% This module implements an interface to strptime/strftime with
 %%% appropriate handling of Erlang datetime formats.
 %%%
-%%% All exported functions in this module can throw "badarg" if
+%%% All exported functions in this module can throw `badarg' if
 %%% malformed input is provided.
 %%%
 %%% A <em>Type</em> argument, accepted by some of the exported functions
 %%% should be one of the following:
 %%%
-%%%   | Type     | Description                                        |
-%%%   |----------+----------------------------------------------------|
-%%%   | unix     | UNIX timestamp, a positive integer denoting number |
-%%%   |          | of seconds since 1 Jan 1970.                       |
-%%%   | now      | @see erlang:now/0                                  |
-%%%   | datetime | @see calendar:datetime/0                           |
+%%% ```
+%%% | Type     | Description                                        |
+%%% |----------+----------------------------------------------------|
+%%% | unix     | UNIX timestamp, a positive integer denoting number |
+%%% |          | of seconds since 1 Jan 1970.                       |
+%%% | now      | @see erlang:now/0                                  |
+%%% | datetime | @see calendar:datetime/0                           |
+%%% '''
 %%%
 %%% A <em>Format</em> argument to any of the exported functions is
 %%% either a {@type binary()} with strptime/strftime compatible tokens or
@@ -77,7 +79,7 @@ parse(Format, Bin, Type) ->
         datetime -> parse_datetime(Format, Bin)
     end.
 
-%% @doc Helper function similar to parse/3.
+%% @doc Helper function similar to {@link parse/3}.
 %%      @equiv parse(Format, Binary, timestamp)
 %% @end
 -spec parse_unix(format(), binary()) -> {ok, unix_timestamp()}
@@ -85,7 +87,7 @@ parse(Format, Bin, Type) ->
 parse_unix(Format, Bin) ->
     strptime(convert_format(Format), Bin).
 
-%% @doc Helper function similar to parse/3.
+%% @doc Helper function similar to {@link parse/3}.
 %%      @equiv parse(Format, Binary, now)
 %% @end
 -spec parse_now(format(), binary()) -> {ok, erlang:timestamp()}
@@ -96,7 +98,7 @@ parse_now(Format, Bin) ->
     Secs = Timestamp rem ?M,
     {ok, {MegaSecs, Secs, 0}}.
 
-%% @doc Helper function similar to parse/3.
+%% @doc Helper function similar to {@link parse/3}.
 %%      @equiv parse(Format, Binary, datetime)
 %% @end
 -spec parse_datetime(format(), binary()) -> {ok, calendar:datetime()}
@@ -128,7 +130,7 @@ format(Format, Datetime, Type) ->
         datetime -> format_datetime(Format, Datetime)
     end.
 
-%% @doc Helper function similar to format/3.
+%% @doc Helper function similar to {@link format/3}.
 %%      @equiv format(Format, Datetime, timestamp)
 %% @end
 -spec format_unix(format(), unix_timestamp()) -> {ok, binary()}
@@ -136,7 +138,7 @@ format(Format, Datetime, Type) ->
 format_unix(Format, Timestamp) ->
     strftime(convert_format(Format), Timestamp).
 
-%% @doc Helper function similar to format/3.
+%% @doc Helper function similar to {@link format/3}.
 %%      @equiv format(Format, Datetime, now)
 %% @end
 -spec format_now(format(), erlang:timestamp()) -> {ok, binary()}
@@ -145,7 +147,7 @@ format_now(Format, {MegaSecs, Secs, _MicroSecs}) ->
     Timestamp = ?M * MegaSecs + Secs,
     format_unix(Format, Timestamp).
 
-%% @doc Helper function similar to format/3.
+%% @doc Helper function similar to {@link format/3}.
 %%      @equiv format(Format, Datetime, datetime)
 %% @end
 -spec format_datetime(format(), calendar:datetime()) -> {ok, binary()}
@@ -179,7 +181,7 @@ strptime(_Format, _DT) -> ?STUB.
 strftime(_Format, _DT) -> ?STUB.
 
 %% @private
-%% @doc Searches for nif in private directory of "tempo" application.
+%% @doc Searches for NIF in private directory of "tempo" application.
 %% @end
 -spec nif_init() -> ok | {error, _}.
 nif_init() ->

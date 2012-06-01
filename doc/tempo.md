@@ -31,14 +31,12 @@ malformed input is provided.
 A _Type_ argument, accepted by some of the exported functions
 should be one of the following:
 
-
-
-| Type     | Description                                        |
-|----------+----------------------------------------------------|
-| unix     | UNIX timestamp, a positive integer denoting number |
-|          | of seconds since 1 Jan 1970.                       |
-| now      | @see erlang:now/0                                  |
-| datetime | @see calendar:datetime/0                           |
+<pre>     | Type     | Description                                        |
+     |----------+----------------------------------------------------|
+     | unix     | UNIX timestamp, a positive integer denoting number |
+     |          | of seconds since 1 Jan 1970.                       |
+     | now      | @see erlang:now/0                                  |
+     | datetime | @see calendar:datetime/0                           |</pre>
 
 A _Format_ argument to any of the exported functions is
 either a `binary()` with strptime/strftime compatible tokens or
@@ -85,9 +83,9 @@ case predefiend format will be used.
 ##Function Index##
 
 
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#format-2">format/2</a></td><td>Formats {Type, Datetime} tuple according to Format.</td></tr><tr><td valign="top"><a href="#format-3">format/3</a></td><td>Formats Datetime according to Format.</td></tr><tr><td valign="top"><a href="#format_datetime-2">format_datetime/2</a></td><td>Helper function similar to format/3.</td></tr><tr><td valign="top"><a href="#format_now-2">format_now/2</a></td><td>Helper function similar to format/3.</td></tr><tr><td valign="top"><a href="#format_unix-2">format_unix/2</a></td><td>Helper function similar to format/3.</td></tr><tr><td valign="top"><a href="#parse-2">parse/2</a></td><td>Parses {Type, Binary} tuple according to provided format, returns
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#format-2">format/2</a></td><td>Formats {Type, Datetime} tuple according to Format.</td></tr><tr><td valign="top"><a href="#format-3">format/3</a></td><td>Formats Datetime according to Format.</td></tr><tr><td valign="top"><a href="#format_datetime-2">format_datetime/2</a></td><td>Helper function similar to <a href="#format-3"><code>format/3</code></a>.</td></tr><tr><td valign="top"><a href="#format_now-2">format_now/2</a></td><td>Helper function similar to <a href="#format-3"><code>format/3</code></a>.</td></tr><tr><td valign="top"><a href="#format_unix-2">format_unix/2</a></td><td>Helper function similar to <a href="#format-3"><code>format/3</code></a>.</td></tr><tr><td valign="top"><a href="#parse-2">parse/2</a></td><td>Parses {Type, Binary} tuple according to provided format, returns
 ok/error tuples with datetime in format that depends on atom Type.</td></tr><tr><td valign="top"><a href="#parse-3">parse/3</a></td><td>Parses Binary according to Format and returns ok/error tuple with
-datetime in format that depends on atom Type.</td></tr><tr><td valign="top"><a href="#parse_datetime-2">parse_datetime/2</a></td><td>Helper function similar to parse/3.</td></tr><tr><td valign="top"><a href="#parse_now-2">parse_now/2</a></td><td>Helper function similar to parse/3.</td></tr><tr><td valign="top"><a href="#parse_unix-2">parse_unix/2</a></td><td>Helper function similar to parse/3.</td></tr></table>
+datetime in format that depends on atom Type.</td></tr><tr><td valign="top"><a href="#parse_datetime-2">parse_datetime/2</a></td><td>Helper function similar to <a href="#parse-3"><code>parse/3</code></a>.</td></tr><tr><td valign="top"><a href="#parse_now-2">parse_now/2</a></td><td>Helper function similar to <a href="#parse-3"><code>parse/3</code></a>.</td></tr><tr><td valign="top"><a href="#parse_unix-2">parse_unix/2</a></td><td>Helper function similar to <a href="#parse-3"><code>parse/3</code></a>.</td></tr></table>
 
 
 <a name="functions"></a>
@@ -127,7 +125,7 @@ Datetime will be handled depends on Type.<a name="format_datetime-2"></a>
 
 Equivalent to [`format(Format, Datetime, datetime)`](#format-3).
 
-Helper function similar to format/3.<a name="format_now-2"></a>
+Helper function similar to [`format/3`](#format-3).<a name="format_now-2"></a>
 
 ###format_now/2##
 
@@ -138,7 +136,7 @@ Helper function similar to format/3.<a name="format_now-2"></a>
 
 Equivalent to [`format(Format, Datetime, now)`](#format-3).
 
-Helper function similar to format/3.<a name="format_unix-2"></a>
+Helper function similar to [`format/3`](#format-3).<a name="format_unix-2"></a>
 
 ###format_unix/2##
 
@@ -149,7 +147,7 @@ Helper function similar to format/3.<a name="format_unix-2"></a>
 
 Equivalent to [`format(Format, Datetime, timestamp)`](#format-3).
 
-Helper function similar to format/3.<a name="parse-2"></a>
+Helper function similar to [`format/3`](#format-3).<a name="parse-2"></a>
 
 ###parse/2##
 
@@ -182,7 +180,7 @@ datetime in format that depends on atom Type.<a name="parse_datetime-2"></a>
 
 Equivalent to [`parse(Format, Binary, datetime)`](#parse-3).
 
-Helper function similar to parse/3.<a name="parse_now-2"></a>
+Helper function similar to [`parse/3`](#parse-3).<a name="parse_now-2"></a>
 
 ###parse_now/2##
 
@@ -193,7 +191,7 @@ Helper function similar to parse/3.<a name="parse_now-2"></a>
 
 Equivalent to [`parse(Format, Binary, now)`](#parse-3).
 
-Helper function similar to parse/3.<a name="parse_unix-2"></a>
+Helper function similar to [`parse/3`](#parse-3).<a name="parse_unix-2"></a>
 
 ###parse_unix/2##
 
@@ -204,4 +202,4 @@ Helper function similar to parse/3.<a name="parse_unix-2"></a>
 
 Equivalent to [`parse(Format, Binary, timestamp)`](#parse-3).
 
-Helper function similar to parse/3.
+Helper function similar to [`parse/3`](#parse-3).

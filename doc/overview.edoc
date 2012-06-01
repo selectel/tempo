@@ -1,8 +1,8 @@
-@title Overview
+@title tempo
+@author Dmitry Groshev <groshev@selectel.ru>
+@author Sergei Levedev <lebedev@selectel.ru>
 
 @doc
-tempo
-=====
 `tempo' is a library for parsing and formatting dates in
 Erlang. It provides a clean and nice interface to libc's
 [http://linux.die.net/man/3/strptime strptime] and
@@ -10,13 +10,11 @@ Erlang. It provides a clean and nice interface to libc's
 which, are unfortunately missing in Erlang's standard library.
 
 
-Is it any good?
----------------
+== Is it any good? ==
 Yes.
 
 
-How can I use it?
------------------
+== How can I use it? ==
 
 The only two functions you have to remember is {@link tempo:parse/2}
 and {@link tempo:format/2}, here're some examples:
@@ -27,13 +25,3 @@ and {@link tempo:format/2}, here're some examples:
 (tempo_dev@localhost)2> tempo:parse(iso8601, {datetime, Bin}).
 {ok,{{2012,6,1},{19,6,42}}}
 '''
-
-Who wrote this awesome library?
--------------------------------
-@author Dmitry Groshev <groshev@selectel.ru>
-@author Sergei Levedev <lebedev@selectel.ru>
-
-
-Last updated
-------------
-{@date} {@time}
