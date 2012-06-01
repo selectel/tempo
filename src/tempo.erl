@@ -1,5 +1,7 @@
 %%% @author Dmitry Groshev <groshev@selectel.ru>
-%%% @author Sergey Levedev <superbobry@selectel.ru>
+%%% @author Sergey Levedev <lebedev@selectel.ru>
+%%%
+%%% @copyright 2012 Selectel Ltd.
 %%%
 %%% @doc NIF-based date and time parsing and formatting for Erlang.
 %%% This module implements an interface to strptime/strftime with
@@ -8,22 +10,20 @@
 %%% All exported functions in this module can throw "badarg" if
 %%% malformed input is provided.
 %%%
-%%% A `Type` argument, accepted by some of the exported functions
+%%% A <em>Type</em> argument, accepted by some of the exported functions
 %%% should be one of the following:
 %%%
-%%% * unix     - Unix timestamp (positive integer denoting number of
-%%%              seconds since 1 Jan 1970;
-%%% * now      - erlang:now() format: tuple with 3 values, {MegaSeconds,
-%%%              Seconds, MilliSeconds}, denoting number of MegaSeconds,
-%%%              Seconds and MilliSeconds from 1 Jan 1970, respectivelly.
-%%% * datetime - calendar:datetime() format for GMT: tuple
-%%%              {{Year, Month, Day}, {Hour, Minute, Seconds}}, denoting
-%%%              GMT date and time.
+%%%   | Type     | Description                                        |
+%%%   |----------+----------------------------------------------------|
+%%%   | unix     | UNIX timestamp, a positive integer denoting number |
+%%%   |          | of seconds since 1 Jan 1970.                       |
+%%%   | now      | @see erlang:now/0                                  |
+%%%   | datetime | @see calendar:datetime/0                           |
 %%%
-%%% A `Format` argument to any of the exported functions is either a
-%%% `binary()` with strptime/strftime compatible tokens or one of the
-%%% following atoms: iso8601, rfc1123, rfc2822. In the latter case
-%%% predefiend format will be used.
+%%% A <em>Format</em> argument to any of the exported functions is
+%%% either a {@type binary()} with strptime/strftime compatible tokens or
+%%% one of the following atoms: iso8601, rfc1123, rfc2822. In the latter
+%%% case predefiend format will be used.
 %%% @end
 %%%
 
