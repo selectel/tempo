@@ -9,7 +9,6 @@
 #define TUPLE2(A, B)    enif_make_tuple2(env, A, B)
 #define TUPLE_OK(A)     TUPLE2(ATOM_OK, A)
 #define TUPLE_ERROR(A)  TUPLE2(ATOM_ERROR, A)
-#define INT64(A)        enif_make_int64(env, A)
 #define ATOM(A)         enif_make_atom(env, A)
 #define UNUSED          __attribute__((unused))
 
@@ -17,7 +16,8 @@ extern char *strptime(const char *s, const char *format, struct tm *tm);
 extern size_t strftime(char *s, size_t max, const char *format,
                        const struct tm *tm);
 
-unsigned enif_get_binary_str(const ErlNifBinary *bin, char *buf)
+
+static inline unsigned enif_get_binary_str(const ErlNifBinary *bin, char *buf)
 {
     unsigned ret = bin->size < MAX_SIZE;
 
@@ -57,7 +57,7 @@ tempo_strptime(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
     }
 
     clock = timegm(&tm);
-    return TUPLE_OK(INT64(clock));
+    return TUPLE_OK(enif_make_int64(env, clock));
 }
 
 static ERL_NIF_TERM
@@ -73,7 +73,9 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     if (argc != 2
         || !enif_is_binary(env, argv[0])
         || !enif_inspect_binary(env, argv[0], &format)
+#if ERL_NIF_MAJOR_VERSION >= 2 && ERL_NIF_MINOR_VERSION >= 3
         || !enif_is_number(env, argv[1])
+#endif
         || !enif_get_int64(env, argv[1], &clock)
         || !enif_get_binary_str(&format, format_str)) {
         return BADARG;
