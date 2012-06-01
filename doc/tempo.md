@@ -23,7 +23,7 @@ appropriate handling of Erlang datetime formats.
 
 
 
-All exported functions in this module can throw "badarg" if
+All exported functions in this module can throw `badarg` if
 malformed input is provided.
 
 
@@ -31,12 +31,12 @@ malformed input is provided.
 A _Type_ argument, accepted by some of the exported functions
 should be one of the following:
 
-<pre>     | Type     | Description                                        |
-     |----------+----------------------------------------------------|
-     | unix     | UNIX timestamp, a positive integer denoting number |
-     |          | of seconds since 1 Jan 1970.                       |
-     | now      | @see erlang:now/0                                  |
-     | datetime | @see calendar:datetime/0                           |</pre>
+<pre>   | Type     | Description                                        |
+   |----------+----------------------------------------------------|
+   | unix     | UNIX timestamp, a positive integer denoting number |
+   |          | of seconds since 1 Jan 1970.                       |
+   | now      | @see erlang:now/0                                  |
+   | datetime | @see calendar:datetime/0                           |</pre>
 
 A _Format_ argument to any of the exported functions is
 either a `binary()` with strptime/strftime compatible tokens or
