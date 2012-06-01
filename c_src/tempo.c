@@ -50,7 +50,7 @@ tempo_strptime(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
     /* HACK(Sergei): since 'libc' doesn't provide us with a way to properly
        initialize 'tm' struct, we default it to '0' UNIX time. */
     memset(&tm, 0, sizeof(struct tm));
-    gmtime_r(&clock, &tm);
+    gmtime_r((const time_t *) &clock, &tm);
 
     if (strptime(buf_str, format_str, &tm) == NULL) {
         return TUPLE_ERROR(ATOM("format_mismatch"));
@@ -80,7 +80,7 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     }
 
     memset(&tm, 0, sizeof(struct tm));
-    if (!gmtime_r((time_t *) &clock, &tm)) {
+    if (!gmtime_r((const time_t *) &clock, &tm)) {
         return TUPLE_ERROR(ATOM("invalid_time"));
     }
 
