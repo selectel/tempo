@@ -80,7 +80,7 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     }
 
     memset(&tm, 0, sizeof(struct tm));
-    if (gmtime_r((time_t *) &clock, &tm) == NULL) {
+    if (!gmtime_r((time_t *) &clock, &tm)) {
         return TUPLE_ERROR(ATOM("invalid_time"));
     }
 
