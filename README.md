@@ -16,7 +16,7 @@ which, are unfortunately missing in Erlang's standard library.
 
 
 
-Yes.
+Yes!
 
 ###<a name="How_can_I_use_it?">How can I use it?</a>##
 
