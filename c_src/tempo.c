@@ -17,7 +17,8 @@ extern size_t strftime(char *s, size_t max, const char *format,
                        const struct tm *tm);
 
 
-static inline unsigned enif_get_binary_str(const ErlNifBinary *bin, char *buf)
+static inline unsigned
+enif_get_binary_str(const ErlNifBinary *bin, char *buf)
 {
     unsigned ret = bin->size < MAX_SIZE;
 
@@ -28,6 +29,22 @@ static inline unsigned enif_get_binary_str(const ErlNifBinary *bin, char *buf)
 
     return ret;
 }
+
+
+static inline time_t
+int64_to_time_t(ErlNifSInt64 clock)
+{
+    time_t result;
+    ErlNifSInt64 diff;
+
+    result = (time_t) clock;
+    diff = clock - (ErlNifSInt64) result;
+    if (diff <= -1 || diff >= 1)
+        return (time_t) -1;
+
+    return result;
+}
+
 
 static ERL_NIF_TERM
 tempo_strptime(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
@@ -60,11 +77,13 @@ tempo_strptime(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
     return TUPLE_OK(enif_make_int64(env, clock));
 }
 
+
 static ERL_NIF_TERM
 tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM buf;
-    ErlNifSInt64 clock;
+    ErlNifSInt64 clock_raw;
+    time_t clock;
     ErlNifBinary format;
     char format_str[MAX_SIZE], buf_str[MAX_SIZE];
     size_t buf_len;
@@ -76,13 +95,19 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 #if ERL_NIF_MAJOR_VERSION >= 2 && ERL_NIF_MINOR_VERSION >= 3
         || !enif_is_number(env, argv[1])
 #endif
-        || !enif_get_int64(env, argv[1], &clock)
+        || !enif_get_int64(env, argv[1], &clock_raw)
         || !enif_get_binary_str(&format, format_str)) {
         return BADARG;
     }
 
+    clock = int64_to_time_t(clock_raw);
+    if (clock == (time_t) -1)
+        /* HACK(Sergei): even though the exact type of 'time_t' is
+           unspecified, on most systems it seem to be a plain 'int'. */
+        return TUPLE_ERROR(ATOM("invalid_time"));
+
     memset(&tm, 0, sizeof(struct tm));
-    if (!gmtime_r((const time_t *) &clock, &tm)) {
+    if (!gmtime_r(&clock, &tm)) {
         return TUPLE_ERROR(ATOM("invalid_time"));
     }
 
@@ -92,6 +117,7 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
     return TUPLE_OK(buf);
 }
+
 
 static int
 load(ErlNifEnv* env UNUSED,
@@ -110,6 +136,7 @@ reload(ErlNifEnv* env UNUSED,
     return 0;
 }
 
+
 static int
 upgrade(ErlNifEnv* env UNUSED,
         void** priv,
@@ -120,6 +147,7 @@ upgrade(ErlNifEnv* env UNUSED,
     return 0;
 }
 
+
 static void
 unload(ErlNifEnv* env UNUSED,
        void* priv)
@@ -128,10 +156,12 @@ unload(ErlNifEnv* env UNUSED,
     return;
 }
 
+
 static ErlNifFunc tempo_funcs[] =
 {
     {"strptime", 2, tempo_strptime},
     {"strftime", 2, tempo_strftime}
 };
+
 
 ERL_NIF_INIT(tempo, tempo_funcs, &load, &reload, &upgrade, &unload)
