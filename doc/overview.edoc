@@ -25,3 +25,14 @@ and {@link tempo:format/2}, here're some examples:
 (tempo_dev@localhost)2> tempo:parse(iso8601, {datetime, Bin}).
 {ok,{{2012,6,1},{19,6,42}}}
 '''
+
+As you might have noticed, both of the functions follow a common
+pattern -- *Format* first, then a *Value*, tagged by it's actual
+or expected type. Predefined formats include: `iso8601', `rfc1123',
+`rfc2822', but in fact, you can use any format, as long as it
+follows libc conventions:
+
+```
+(tempo_dev@localhost)1> {ok, Bin} = tempo:format(<<"%A, %Y-%d-%m">>, {now, now()}).
+{ok,<<"Thursday, 2012-07-06">>}
+'''
