@@ -32,15 +32,14 @@ enif_get_binary_str(const ErlNifBinary *bin, char *buf)
 
 
 static inline time_t
-int64_to_time_t(ErlNifSInt64 clock)
+int64_to_time_t(ErlNifSInt64 clock, int *overflow)
 {
     time_t result;
     ErlNifSInt64 diff;
 
     result = (time_t) clock;
     diff = clock - (ErlNifSInt64) result;
-    if (diff <= -1 || diff >= 1)
-        return (time_t) -1;
+    *overflow = diff <= -1 || diff >= 1;
 
     return result;
 }
@@ -87,6 +86,7 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     ErlNifBinary format;
     char format_str[MAX_SIZE], buf_str[MAX_SIZE];
     size_t buf_len;
+    int overflow;
     struct tm tm;
 
     if (argc != 2
@@ -100,8 +100,9 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         return BADARG;
     }
 
-    clock = int64_to_time_t(clock_raw);
-    if (clock == (time_t) -1)
+    overflow = 0;
+    clock = int64_to_time_t(clock_raw, &overflow);
+    if (overflow != 0)
         /* HACK(Sergei): even though the exact type of 'time_t' is
            unspecified, on most systems it seem to be a plain 'int'. */
         return TUPLE_ERROR(ATOM("invalid_time"));
