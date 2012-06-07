@@ -105,7 +105,7 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     if (overflow != 0)
         /* HACK(Sergei): even though the exact type of 'time_t' is
            unspecified, on most systems it seem to be a plain 'int'. */
-        return TUPLE_ERROR(ATOM("invalid_time"));
+        return TUPLE_ERROR(ATOM("time_overflow"));
 
     memset(&tm, 0, sizeof(struct tm));
     if (!gmtime_r(&clock, &tm)) {

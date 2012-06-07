@@ -26,6 +26,14 @@
 %%% either a {@type binary()} with strptime/strftime compatible tokens or
 %%% one of the following atoms: iso8601, rfc1123, rfc2822. In the latter
 %%% case predefiend format will be used.
+%%%
+%%% *A note about 32-bit systems*
+%%%
+%%% Functions of "format" family can return "{error, time_overflow}" if
+%%% underlying 32-bit value is overflown. This is presumably possible only
+%%% on 32-bit systems. Minimum datetime for such systems is
+%%% `{{1901,12,13},{20,45,52}}` and maximum is `{{2038,1,19},{3,14,7}}`.
+%%%
 %%% @end
 %%%
 
@@ -114,7 +122,8 @@ parse_datetime(Format, Bin) ->
 %% @end
 -spec format(format(),
              {datetime_type(), datetime_value()}) -> {ok, binary()}
-                                                   | {error, invalid_time}.
+                                                   | {error, invalid_time}
+                                                   | {error, time_overflow}.
 format(Format, {Type, Datetime}) -> format(Format, Datetime, Type).
 
 %% @doc Formats Datetime according to Format. The way in which
@@ -122,7 +131,8 @@ format(Format, {Type, Datetime}) -> format(Format, Datetime, Type).
 %% @end
 -spec format(format(), datetime_value(),
              datetime_type()) -> {ok, binary()}
-                               | {error, invalid_time}.
+                               | {error, invalid_time}
+                               | {error, time_overflow}.
 format(Format, Datetime, Type) ->
     case Type of
         unix     -> format_unix(Format, Datetime);
@@ -134,7 +144,8 @@ format(Format, Datetime, Type) ->
 %%      @equiv format(Format, Datetime, timestamp)
 %% @end
 -spec format_unix(format(), unix_timestamp()) -> {ok, binary()}
-                                               | {error, invalid_time}.
+                                               | {error, invalid_time}
+                                               | {error, time_overflow}.
 format_unix(Format, Timestamp) ->
     strftime(convert_format(Format), Timestamp).
 
@@ -142,7 +153,8 @@ format_unix(Format, Timestamp) ->
 %%      @equiv format(Format, Datetime, now)
 %% @end
 -spec format_now(format(), erlang:timestamp()) -> {ok, binary()}
-                                                | {error, invalid_time}.
+                                                | {error, invalid_time}
+                                                | {error, time_overflow}.
 format_now(Format, {MegaSecs, Secs, _MicroSecs}) ->
     Timestamp = ?M * MegaSecs + Secs,
     format_unix(Format, Timestamp).
@@ -151,7 +163,8 @@ format_now(Format, {MegaSecs, Secs, _MicroSecs}) ->
 %%      @equiv format(Format, Datetime, datetime)
 %% @end
 -spec format_datetime(format(), calendar:datetime()) -> {ok, binary()}
-                                                | {error, invalid_time}.
+                                                      | {error, invalid_time}
+                                                      | {error, time_overflow}.
 format_datetime(Format, Datetime) ->
     Timestamp = calendar:datetime_to_gregorian_seconds(Datetime) - ?EPOCH_ZERO,
     format_unix(Format, Timestamp).
