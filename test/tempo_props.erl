@@ -53,17 +53,37 @@ prop_format_parse() ->
 prop_format_parse_now() ->
     ?FORALL({{MegaSecs, Secs, _}=Now, Format}, {now(), standard_format()},
             try
-                {ok, Buffer} = tempo:format(Format, Now, now),
-                {ok, {MegaSecs, Secs, 0}} == tempo:parse(Format, Buffer, now)
+                case tempo:format(Format, Now, now) of
+                    {ok, Buffer} ->
+                        {ok, {MegaSecs, Secs, 0}}
+                            == tempo:parse(Format, Buffer, now);
+                    {error, time_overflow} ->
+                        case erlang:system_info(wordsize) of
+                            %% 64-bit system, time_t is int64
+                            8 -> false;
+                            %% 32-bit system, time_t is int32
+                            4 -> can_overflow_now(Now)
+                        end
+                end
             catch
-                _:e -> false
+                _:_ -> false
             end).
 
 prop_format_parse_datetime() ->
     ?FORALL({Datetime, Format}, {datetime(), standard_format()},
             try
-                {ok, Buffer} = tempo:format(Format, Datetime, datetime),
-                {ok, Datetime} == tempo:parse(Format, Buffer, datetime)
+                case tempo:format(Format, Datetime, datetime) of
+                    {ok, Buffer} ->
+                        {ok, Datetime}
+                            == tempo:parse(Format, Buffer, datetime);
+                    {error, time_overflow} ->
+                        case erlang:system_info(wordsize) of
+                            %% 64-bit system, time_t is int64
+                            8 -> false;
+                            %% 32-bit system, time_t is int32
+                            4 -> can_overflow_datetime(Datetime)
+                        end
+                end
             catch
                 _:_ -> false
             end).
@@ -100,6 +120,15 @@ valid_format_return(Format, Time) ->
         {'EXIT', {badarg, _}}      -> true;
         _                          -> false
     end.
+
+can_overflow_now({MegaSecs, Secs, _}) ->
+    MegaSecs * 1000000 + Secs > 2147483647.
+
+can_overflow_datetime(Datetime) ->
+    GregMin = calendar:datetime_to_gregorian_seconds({{1901,12,13},{20,45,52}}),
+    GregMax = calendar:datetime_to_gregorian_seconds({{2038,1,19},{3,14,7}}),
+    Greg = calendar:datetime_to_gregorian_seconds(Datetime),
+    Greg > GregMax orelse Greg < GregMin.
 
 %% Suite.
 
