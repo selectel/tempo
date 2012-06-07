@@ -32,7 +32,7 @@
 %%% Functions of "format" family can return "{error, time_overflow}" if
 %%% underlying 32-bit value is overflown. This is presumably possible only
 %%% on 32-bit systems. Minimum datetime for such systems is
-%%% `{{1901,12,13},{20,45,52}}` and maximum is `{{2038,1,19},{3,14,7}}`.
+%%% `{{1901,12,13},{20,45,52}}' and maximum is `{{2038,1,19},{3,14,7}}'.
 %%%
 %%% @end
 %%%

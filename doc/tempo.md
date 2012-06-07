@@ -38,10 +38,22 @@ should be one of the following:
    | now      | @see erlang:now/0                                  |
    | datetime | @see calendar:datetime/0                           |</pre>
 
+
+
 A _Format_ argument to any of the exported functions is
 either a `binary()` with strptime/strftime compatible tokens or
 one of the following atoms: iso8601, rfc1123, rfc2822. In the latter
 case predefiend format will be used.
+
+
+
+*A note about 32-bit systems*
+
+Functions of "format" family can return "{error, time_overflow}" if
+underlying 32-bit value is overflown. This is presumably possible only
+on 32-bit systems. Minimum datetime for such systems is
+`{{1901,12,13},{20,45,52}}` and maximum is `{{2038,1,19},{3,14,7}}`.
+
 <a name="types"></a>
 
 ##Data Types##
@@ -97,7 +109,7 @@ datetime in format that depends on atom Type.</td></tr><tr><td valign="top"><a h
 ###format/2##
 
 
-<pre>format(Format::<a href="#type-format">format()</a>, X2::{<a href="#type-datetime_type">datetime_type()</a>, <a href="#type-datetime_value">datetime_value()</a>}) -> {ok, binary()} | {error, invalid_time}</pre>
+<pre>format(Format::<a href="#type-format">format()</a>, X2::{<a href="#type-datetime_type">datetime_type()</a>, <a href="#type-datetime_value">datetime_value()</a>}) -> {ok, binary()} | {error, invalid_time} | {error, time_overflow}</pre>
 <br></br>
 
 
@@ -109,7 +121,7 @@ Datetime will be handled depends on Type.<a name="format-3"></a>
 ###format/3##
 
 
-<pre>format(Format::<a href="#type-format">format()</a>, Datetime::<a href="#type-datetime_value">datetime_value()</a>, Type::<a href="#type-datetime_type">datetime_type()</a>) -> {ok, binary()} | {error, invalid_time}</pre>
+<pre>format(Format::<a href="#type-format">format()</a>, Datetime::<a href="#type-datetime_value">datetime_value()</a>, Type::<a href="#type-datetime_type">datetime_type()</a>) -> {ok, binary()} | {error, invalid_time} | {error, time_overflow}</pre>
 <br></br>
 
 
@@ -119,7 +131,7 @@ Datetime will be handled depends on Type.<a name="format_datetime-2"></a>
 ###format_datetime/2##
 
 
-<pre>format_datetime(Format::<a href="#type-format">format()</a>, Datetime::<a href="calendar.md#type-datetime">calendar:datetime()</a>) -> {ok, binary()} | {error, invalid_time}</pre>
+<pre>format_datetime(Format::<a href="#type-format">format()</a>, Datetime::<a href="calendar.md#type-datetime">calendar:datetime()</a>) -> {ok, binary()} | {error, invalid_time} | {error, time_overflow}</pre>
 <br></br>
 
 
@@ -130,7 +142,7 @@ Helper function similar to [`format/3`](#format-3).<a name="format_now-2"></a>
 ###format_now/2##
 
 
-<pre>format_now(Format::<a href="#type-format">format()</a>, X2::<a href="erlang.md#type-timestamp">erlang:timestamp()</a>) -> {ok, binary()} | {error, invalid_time}</pre>
+<pre>format_now(Format::<a href="#type-format">format()</a>, X2::<a href="erlang.md#type-timestamp">erlang:timestamp()</a>) -> {ok, binary()} | {error, invalid_time} | {error, time_overflow}</pre>
 <br></br>
 
 
@@ -141,7 +153,7 @@ Helper function similar to [`format/3`](#format-3).<a name="format_unix-2"></a>
 ###format_unix/2##
 
 
-<pre>format_unix(Format::<a href="#type-format">format()</a>, Timestamp::<a href="#type-unix_timestamp">unix_timestamp()</a>) -> {ok, binary()} | {error, invalid_time}</pre>
+<pre>format_unix(Format::<a href="#type-format">format()</a>, Timestamp::<a href="#type-unix_timestamp">unix_timestamp()</a>) -> {ok, binary()} | {error, invalid_time} | {error, time_overflow}</pre>
 <br></br>
 
 
