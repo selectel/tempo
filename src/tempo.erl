@@ -25,12 +25,12 @@
 %%% A <em>Format</em> argument to any of the exported functions is
 %%% either a {@type binary()} with strptime/strftime compatible tokens or
 %%% one of the following atoms: iso8601, rfc1123, rfc2822. In the latter
-%%% case predefiend format will be used.
+%%% case a predefined format will be used.
 %%%
 %%% *A note about 32-bit systems*
 %%%
 %%% Functions of "format" family can return "{error, time_overflow}" if
-%%% underlying 32-bit value is overflown. This is presumably possible only
+%%% the underlying 32-bit value overflows. This is presumably possible only
 %%% on 32-bit systems. Minimum datetime for such systems is
 %%% `{{1901,12,13},{20,45,52}}' and maximum is `{{2038,1,19},{3,14,7}}'.
 %%%

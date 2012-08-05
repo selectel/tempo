@@ -7,7 +7,7 @@
 Erlang. It provides a clean and nice interface to libc's
 [http://linux.die.net/man/3/strptime strptime] and
 [http://linux.die.net/man/3/strftime strftime] functions,
-which, are unfortunately missing in Erlang's standard library.
+which are unfortunately missing from Erlang's standard library.
 
 
 == Is it any good? ==
@@ -16,8 +16,8 @@ Yes.
 
 == How can I use it? ==
 
-The only two functions you have to remember is {@link tempo:parse/2}
-and {@link tempo:format/2}, here're some examples:
+The only two functions you have to remember are {@link tempo:parse/2}
+and {@link tempo:format/2}. Here are some examples:
 
 ```
 (tempo_dev@localhost)1> {ok, Bin} = tempo:format(iso8601, {now, now()}).
@@ -27,9 +27,9 @@ and {@link tempo:format/2}, here're some examples:
 '''
 
 As you might have noticed, both of the functions follow a common
-pattern -- *Format* first, then a *Value*, tagged by it's actual
+pattern -- *Format* first, then a *Value*, tagged by its actual
 or expected type. Predefined formats include: `iso8601', `rfc1123',
-`rfc2822', but in fact, you can use any format, as long as it
+and `rfc2822', but in fact, you can use any format, as long as it
 follows libc conventions:
 
 ```
