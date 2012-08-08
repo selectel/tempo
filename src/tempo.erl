@@ -206,7 +206,7 @@ nif_init() ->
                   Path ->
                       Path
               end,
-    erlang:load_nif(filename:join(PrivDir, ?MODULE), 0).
+    erlang:load_nif(filename:join(PrivDir, atom_to_list(?MODULE)), 0).
 
 %% @private
 %% @doc Helper for exiting gracefully when NIF can't be loaded.
