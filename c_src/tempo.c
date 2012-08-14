@@ -46,6 +46,14 @@ int64_to_time_t(ErlNifSInt64 clock, int *overflow)
 }
 
 
+static inline void
+tempo_expand_custom_formatters(UNUSED const char *fmt_str,
+                               UNUSED const struct tm *tm,
+                               UNUSED const double usecs)
+{
+}
+
+
 static ERL_NIF_TERM
 tempo_strptime(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
 {
@@ -86,7 +94,7 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     double usecs;
     time_t clock;
     ErlNifBinary format;
-    char format_str[MAX_SIZE], buf_str[MAX_SIZE];
+    char fmt_str[MAX_SIZE], buf_str[MAX_SIZE];
     size_t buf_len;
     int overflow;
     struct tm tm;
@@ -98,7 +106,7 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         || !enif_is_number(env, argv[1])
 #endif
         || !enif_get_double(env, argv[1], &clock_raw)
-        || !enif_get_binary_str(&format, format_str)) {
+        || !enif_get_binary_str(&format, fmt_str)) {
         return BADARG;
     }
 
@@ -116,7 +124,10 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         return TUPLE_ERROR(ATOM("invalid_time"));
     }
 
-    buf_len = strftime(buf_str, MAX_SIZE, format_str, &tm);
+    /* FIXME(Sergei): stub! */
+    tempo_expand_custom_formatters(fmt_str, &tm, usecs);
+
+    buf_len = strftime(buf_str, MAX_SIZE, fmt_str, &tm);
     memcpy(enif_make_new_binary(env, buf_len, &buf),
            &buf_str, buf_len);
 
