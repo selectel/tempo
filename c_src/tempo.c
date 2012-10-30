@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <string.h>
 #include <time.h>
 #include "erl_nif.h"
@@ -45,6 +46,14 @@ int64_to_time_t(ErlNifSInt64 clock, int *overflow)
 }
 
 
+static inline void
+tempo_expand_custom_formatters(UNUSED const char *fmt_str,
+                               UNUSED const struct tm *tm,
+                               UNUSED const double usecs)
+{
+}
+
+
 static ERL_NIF_TERM
 tempo_strptime(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
 {
@@ -73,7 +82,7 @@ tempo_strptime(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
     }
 
     clock = timegm(&tm);
-    return TUPLE_OK(enif_make_int64(env, clock));
+    return TUPLE_OK(enif_make_double(env, clock));
 }
 
 
@@ -81,10 +90,11 @@ static ERL_NIF_TERM
 tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM buf;
-    ErlNifSInt64 clock_raw;
+    double clock_raw;
+    double usecs;
     time_t clock;
     ErlNifBinary format;
-    char format_str[MAX_SIZE], buf_str[MAX_SIZE];
+    char fmt_str[MAX_SIZE], buf_str[MAX_SIZE];
     size_t buf_len;
     int overflow;
     struct tm tm;
@@ -95,14 +105,16 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 #if ERL_NIF_MAJOR_VERSION >= 2 && ERL_NIF_MINOR_VERSION >= 3
         || !enif_is_number(env, argv[1])
 #endif
-        || !enif_get_int64(env, argv[1], &clock_raw)
-        || !enif_get_binary_str(&format, format_str)) {
+        || !enif_get_double(env, argv[1], &clock_raw)
+        || !enif_get_binary_str(&format, fmt_str)) {
         return BADARG;
     }
 
+    usecs = clock_raw - ((ErlNifSInt64) clock_raw);
+
     overflow = 0;
-    clock = int64_to_time_t(clock_raw, &overflow);
-    if (overflow != 0)
+    clock = int64_to_time_t((ErlNifSInt64) clock_raw, &overflow);
+    if (overflow != 0.)
         /* HACK(Sergei): even though the exact type of 'time_t' is
            unspecified, on most systems it seem to be a plain 'int'. */
         return TUPLE_ERROR(ATOM("time_overflow"));
@@ -112,7 +124,10 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         return TUPLE_ERROR(ATOM("invalid_time"));
     }
 
-    buf_len = strftime(buf_str, MAX_SIZE, format_str, &tm);
+    /* FIXME(Sergei): stub! */
+    tempo_expand_custom_formatters(fmt_str, &tm, usecs);
+
+    buf_len = strftime(buf_str, MAX_SIZE, fmt_str, &tm);
     memcpy(enif_make_new_binary(env, buf_len, &buf),
            &buf_str, buf_len);
 

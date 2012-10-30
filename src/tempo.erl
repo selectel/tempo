@@ -45,7 +45,8 @@
 -endif.
 
 -define(STUB, not_loaded(?LINE)).
--define(M, 1000000).
+-define(MEGA, 1000000).
+-define(MICRO, 0.000001).
 -define(EPOCH_ZERO,
         calendar:datetime_to_gregorian_seconds({{1970, 1, 1}, {0, 0, 0}})).
 
@@ -54,7 +55,7 @@
          format/2, format/3,
          format_unix/2, format_now/2, format_datetime/2]).
 
--type unix_timestamp() :: pos_integer().
+-type unix_timestamp() :: float().
 -type format()         :: binary()
                         | iso8601
                         | rfc1123
@@ -102,10 +103,12 @@ parse_unix(Format, Bin) ->
                                      | {error, format_mismatch}.
 parse_now(Format, Bin) ->
     case parse_unix(Format, Bin) of
-        {ok, Timestamp} ->
-            MegaSecs = Timestamp div ?M,
-            Secs = Timestamp rem ?M,
-            {ok, {MegaSecs, Secs, 0}};
+        {ok, RawTimestamp} ->
+            Timestamp = trunc(RawTimestamp),
+            MicroSecs = RawTimestamp - Timestamp,
+            MegaSecs = Timestamp div ?MEGA,
+            Secs = Timestamp rem ?MEGA,
+            {ok, {MegaSecs, Secs, MicroSecs}};
         Err -> Err
     end.
 
@@ -162,8 +165,8 @@ format_unix(Format, Timestamp) ->
 -spec format_now(format(), erlang:timestamp()) -> {ok, binary()}
                                                 | {error, invalid_time}
                                                 | {error, time_overflow}.
-format_now(Format, {MegaSecs, Secs, _MicroSecs}) ->
-    Timestamp = ?M * MegaSecs + Secs,
+format_now(Format, {MegaSecs, Secs, MicroSecs}) ->
+    Timestamp = ?MEGA * MegaSecs + Secs + ?MICRO * MicroSecs,
     format_unix(Format, Timestamp).
 
 %% @doc Helper function similar to {@link format/3}.
