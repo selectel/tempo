@@ -157,7 +157,7 @@ format(Format, Datetime, Type) ->
                                                | {error, invalid_time}
                                                | {error, time_overflow}.
 format_unix(Format, Timestamp) ->
-    strftime(convert_format(Format), Timestamp).
+    strftime(convert_format(Format), float(Timestamp)).
 
 %% @doc Helper function similar to {@link format/3}.
 %%      @equiv format(Format, Datetime, now)
