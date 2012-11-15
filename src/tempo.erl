@@ -94,7 +94,11 @@ parse(Format, Bin, Type) ->
 -spec parse_unix(format(), binary()) -> {ok, unix_timestamp()}
                                       | {error, format_mismatch}.
 parse_unix(Format, Bin) ->
-    strptime(convert_format(Format), Bin).
+    case strptime(convert_format(Format), Bin) of
+        {ok, Timestamp} ->
+            {ok, round(Timestamp)};
+        Err -> Err
+    end.
 
 %% @doc Helper function similar to {@link parse/3}.
 %%      @equiv parse(Format, Binary, now)
@@ -157,7 +161,7 @@ format(Format, Datetime, Type) ->
                                                | {error, invalid_time}
                                                | {error, time_overflow}.
 format_unix(Format, Timestamp) ->
-    strftime(convert_format(Format), Timestamp).
+    strftime(convert_format(Format), float(Timestamp)).
 
 %% @doc Helper function similar to {@link format/3}.
 %%      @equiv format(Format, Datetime, now)
