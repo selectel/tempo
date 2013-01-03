@@ -36,3 +36,10 @@ follows libc conventions:
 (tempo_dev@localhost)1> {ok, Bin} = tempo:format(<<"%A, %Y-%d-%m">>, {now, now()}).
 {ok,<<"Thursday, 2012-07-06">>}
 '''
+
+== Limitations ==
+
+Unfortunately, dealing with time on various platforms is messy, so limitations are
+unavoidable. Here's a shortlist of those we know of:
+
+* Parsing years before `1900' causes a `{error, format_mismatch}' on OS X.

@@ -89,7 +89,7 @@ on 32-bit systems. Minimum datetime for such systems is
 
 
 
-<pre>unix_timestamp() = pos_integer()</pre>
+<pre>unix_timestamp() = float()</pre>
 <a name="index"></a>
 
 ##Function Index##

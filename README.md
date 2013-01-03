@@ -34,10 +34,17 @@ and `rfc2822`, but in fact, you can use any format, as long as it
 follows libc conventions:<pre>(tempo_dev@localhost)1> {ok, Bin} = tempo:format(<<"%A, %Y-%d-%m">>, {now, now()}).
 {ok,<<"Thursday, 2012-07-06">>}</pre>
 
+###<a name="Limitations">Limitations</a>##
+
+
+Unfortunately, dealing with time on various platforms is messy, so limitations are
+unavoidable. Here's a shortlist of those we know of:
+
+* Parsing years before `1900` causes a `{error, format_mismatch}` on OS X.
+
 
 ##Modules##
 
 
 <table width="100%" border="0" summary="list of modules">
 <tr><td><a href="https://github.com/selectel/tempo/blob/master/doc/tempo.md" class="module">tempo</a></td></tr></table>
-

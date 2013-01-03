@@ -2,17 +2,18 @@
 -compile({no_auto_import, [now/0]}).
 -include_lib("proper/include/proper.hrl").
 -include_lib("eunit/include/eunit.hrl").
+
 -define(TYPES, [unix, now, datetime]).
 -define(ISO8601, "%Y-%m-%dT%H:%M:%S%z").
 -define(EXTRASEQS, ["%a", "%A", "%b", "%B", "%c", "%d", "%F", "%H",
                     "%j", "%m", "%M", "%p", "%S", "%U", "%w",
                     "%W", "%x", "%X", "%y", "%Y"]).
 -define(SEPARATORS, [" ", "-", "_", "/"]).
--define(STANDARTS, [iso8601, rfc1123, rfc2822]).
+-define(PREDEFINED, [iso8601, rfc1123, rfc2822]).
 
 %% Generators.
 
-standard_format() -> oneof(?STANDARTS).
+standard_format() -> oneof(?PREDEFINED).
 
 extra_part() ->
     ?LET(N, integer(1, 15),
@@ -125,8 +126,10 @@ can_overflow_now({MegaSecs, Secs, _}) ->
     MegaSecs * 1000000 + Secs > 2147483647.
 
 can_overflow_datetime(Datetime) ->
-    GregMin = calendar:datetime_to_gregorian_seconds({{1901,12,13},{20,45,52}}),
-    GregMax = calendar:datetime_to_gregorian_seconds({{2038,1,19},{3,14,7}}),
+    GregMin = calendar:datetime_to_gregorian_seconds(
+                {{1901, 12, 13}, {20, 45, 52}}),
+    GregMax = calendar:datetime_to_gregorian_seconds(
+                {{2038, 1, 19}, {3, 14, 7}}),
     Greg = calendar:datetime_to_gregorian_seconds(Datetime),
     Greg > GregMax orelse Greg < GregMin.
 
