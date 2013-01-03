@@ -89,9 +89,10 @@ expand_custom_formatters(char *fmt_str, const double usecs)
         should_free = 0;
 
         if (ch == '%') {
-            ch = *pin++;
-
-            if (isdigit(ch) && pin[0] == 'N') {
+            if ((ch = *pin++) == '\0') {
+                /* a standalone '%', report failure? */
+                break;
+            } else if (isdigit(ch) && pin[0] == 'N') {
                 ptoappend = expand_nseconds(ch - '0', usecs);
                 ntoappend = strlen(ptoappend);
                 should_free = 1;
@@ -107,8 +108,6 @@ expand_custom_formatters(char *fmt_str, const double usecs)
         }
 
         assert(ptoappend != NULL);
-        assert(ntoappend >= 0);
-
         if (ntoappend > 0) {
             memcpy(new_fmt_str + new_size, ptoappend, ntoappend);
             new_size += ntoappend;
