@@ -67,6 +67,7 @@ tempo_strptime(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
         || !enif_is_binary(env, argv[1])
         || !enif_inspect_binary(env, argv[0], &format)
         || !enif_inspect_binary(env, argv[1], &buf)
+        || !format.size || !buf.size
         || !enif_get_binary_str(&format, format_str)
         || !enif_get_binary_str(&buf, buf_str)) {
         return BADARG;
@@ -102,6 +103,7 @@ tempo_strftime(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     if (argc != 2
         || !enif_is_binary(env, argv[0])
         || !enif_inspect_binary(env, argv[0], &format)
+        || !format.size  /* disallow empty format. */
 #if ERL_NIF_MAJOR_VERSION >= 2 && ERL_NIF_MINOR_VERSION >= 3
         || !enif_is_number(env, argv[1])
 #endif
