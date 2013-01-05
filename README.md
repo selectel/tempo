@@ -22,10 +22,10 @@ Yes.
 
 
 The only two functions you have to remember are [`tempo:parse/2`](https://github.com/selectel/tempo/blob/master/doc/tempo.md#parse-2)
-and [`tempo:format/2`](https://github.com/selectel/tempo/blob/master/doc/tempo.md#format-2). Here are some examples:<pre>(tempo_dev@localhost)1> {ok, Bin} = tempo:format(iso8601, {now, now()}).
-{ok,<<"2012-06-01T19:06:420000">>}
-(tempo_dev@localhost)2> tempo:parse(iso8601, {datetime, Bin}).
-{ok,{{2012,6,1},{19,6,42}}}</pre>
+and [`tempo:format/2`](https://github.com/selectel/tempo/blob/master/doc/tempo.md#format-2). Here are some examples:<pre>1> {ok, Bin} = tempo:format(iso8601, {now, now()}).
+{ok,<<"2013-01-05T13:29:18+0400">>}
+2> tempo:parse(iso8601, {datetime, Bin}).
+{ok,{{2013,1,5},{13,29,18}}}</pre>
 
 As you might have noticed, both of the functions follow a common
 pattern -- *Format* first, then a *Value*, tagged by its actual

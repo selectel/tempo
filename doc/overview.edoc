@@ -20,10 +20,10 @@ The only two functions you have to remember are {@link tempo:parse/2}
 and {@link tempo:format/2}. Here are some examples:
 
 ```
-(tempo_dev@localhost)1> {ok, Bin} = tempo:format(iso8601, {now, now()}).
-{ok,<<"2012-06-01T19:06:420000">>}
-(tempo_dev@localhost)2> tempo:parse(iso8601, {datetime, Bin}).
-{ok,{{2012,6,1},{19,6,42}}}
+1> {ok, Bin} = tempo:format(iso8601, {now, now()}).
+{ok,<<"2013-01-05T13:29:18+0400">>}
+2> tempo:parse(iso8601, {datetime, Bin}).
+{ok,{{2013,1,5},{13,29,18}}}
 '''
 
 As you might have noticed, both of the functions follow a common
