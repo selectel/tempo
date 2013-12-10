@@ -3,7 +3,7 @@
 #tempo [![Build Status](https://secure.travis-ci.org/selectel/tempo.png)](http://travis-ci.org/selectel/tempo)#
 
 
-__Authors:__ Dmitry Groshev ([`groshev@selectel.ru`](mailto:groshev@selectel.ru)), Sergei Levedev ([`lebedev@selectel.ru`](mailto:lebedev@selectel.ru)).
+__Authors:__ Dmitry Groshev ([`groshev@selectel.ru`](mailto:groshev@selectel.ru)), Sergei Lebedev ([`lebedev@selectel.ru`](mailto:lebedev@selectel.ru)).
 
 
 `tempo` is a library for parsing and formatting dates in
