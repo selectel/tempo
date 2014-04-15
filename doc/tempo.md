@@ -1,6 +1,6 @@
 
 
-#Module tempo#
+# Module tempo #
 * [Description](#description)
 * [Data Types](#types)
 * [Function Index](#index)
@@ -8,14 +8,13 @@
 
 
 NIF-based date and time parsing and formatting for Erlang.
-
 Copyright (c) 2012 Selectel Ltd.
 
 
-__Authors:__ Dmitry Groshev ([`groshev@selectel.ru`](mailto:groshev@selectel.ru)), Sergey Levedev ([`lebedev@selectel.ru`](mailto:lebedev@selectel.ru)).<a name="description"></a>
+__Authors:__ Dmitry Groshev ([`groshev@selectel.ru`](mailto:groshev@selectel.ru)), Sergey Levedev ([`lebedev@selectel.ru`](mailto:lebedev@selectel.ru)).
+<a name="description"></a>
 
-##Description##
-
+## Description ##
 
 
 This module implements an interface to strptime/strftime with
@@ -31,12 +30,16 @@ malformed input is provided.
 A _Type_ argument, accepted by some of the exported functions
 should be one of the following:
 
-<pre>   | Type     | Description                                        |
+
+
+```
+   | Type     | Description                                        |
    |----------+----------------------------------------------------|
    | unix     | UNIX timestamp, a positive integer denoting number |
    |          | of seconds since 1 Jan 1970.                       |
    | now      | @see erlang:now/0                                  |
-   | datetime | @see calendar:datetime/0                           |</pre>
+   | datetime | @see calendar:datetime/0                           |
+```
 
 
 
@@ -49,6 +52,7 @@ case a predefined format will be used.
 
 *A note about 32-bit systems*
 
+
 Functions of "format" family can return "{error, time_overflow}" if
 the underlying 32-bit value overflows. This is presumably possible only
 on 32-bit systems. Minimum datetime for such systems is
@@ -56,43 +60,59 @@ on 32-bit systems. Minimum datetime for such systems is
 
 <a name="types"></a>
 
-##Data Types##
+## Data Types ##
 
 
 
 
-###<a name="type-datetime_type">datetime_type()</a>##
+### <a name="type-datetime_type">datetime_type()</a> ###
 
 
 
-<pre>datetime_type() = unix | now | datetime</pre>
+<pre><code>
+datetime_type() = unix | now | datetime
+</code></pre>
 
 
 
-###<a name="type-datetime_value">datetime_value()</a>##
+
+
+### <a name="type-datetime_value">datetime_value()</a> ###
 
 
 
-<pre>datetime_value() = <a href="#type-unix_timestamp">unix_timestamp()</a> | <a href="erlang.md#type-timestamp">erlang:timestamp()</a> | <a href="calendar.md#type-datetime">calendar:datetime()</a></pre>
+<pre><code>
+datetime_value() = <a href="#type-unix_timestamp">unix_timestamp()</a> | <a href="erlang.md#type-timestamp">erlang:timestamp()</a> | <a href="calendar.md#type-datetime">calendar:datetime()</a>
+</code></pre>
 
 
 
-###<a name="type-format">format()</a>##
+
+
+### <a name="type-format">format()</a> ###
 
 
 
-<pre>format() = binary() | iso8601 | rfc1123 | rfc2822</pre>
+<pre><code>
+format() = binary() | iso8601 | rfc1123 | rfc2822
+</code></pre>
 
 
 
-###<a name="type-unix_timestamp">unix_timestamp()</a>##
+
+
+### <a name="type-unix_timestamp">unix_timestamp()</a> ###
 
 
 
-<pre>unix_timestamp() = float()</pre>
+<pre><code>
+unix_timestamp() = float()
+</code></pre>
+
+
 <a name="index"></a>
 
-##Function Index##
+## Function Index ##
 
 
 <table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#format-2">format/2</a></td><td>Formats {Type, Datetime} tuple according to Format.</td></tr><tr><td valign="top"><a href="#format-3">format/3</a></td><td>Formats Datetime according to Format.</td></tr><tr><td valign="top"><a href="#format_datetime-2">format_datetime/2</a></td><td>Helper function similar to <a href="#format-3"><code>format/3</code></a>.</td></tr><tr><td valign="top"><a href="#format_now-2">format_now/2</a></td><td>Helper function similar to <a href="#format-3"><code>format/3</code></a>.</td></tr><tr><td valign="top"><a href="#format_unix-2">format_unix/2</a></td><td>Helper function similar to <a href="#format-3"><code>format/3</code></a>.</td></tr><tr><td valign="top"><a href="#parse-2">parse/2</a></td><td>Parses {Type, Binary} tuple according to provided format, returns
@@ -102,113 +122,152 @@ datetime in format that depends on atom Type.</td></tr><tr><td valign="top"><a h
 
 <a name="functions"></a>
 
-##Function Details##
+## Function Details ##
 
 <a name="format-2"></a>
 
-###format/2##
+### format/2 ###
 
 
-<pre>format(Format::<a href="#type-format">format()</a>, X2::{<a href="#type-datetime_type">datetime_type()</a>, <a href="#type-datetime_value">datetime_value()</a>}) -> {ok, binary()} | {error, invalid_time} | {error, time_overflow}</pre>
+<pre><code>
+format(Format::<a href="#type-format">format()</a>, X2::{<a href="#type-datetime_type">datetime_type()</a>, <a href="#type-datetime_value">datetime_value()</a>}) -&gt; {ok, binary()} | {error, invalid_time} | {error, time_overflow}
+</code></pre>
+
 <br></br>
 
 
 Equivalent to [`format(Format, Datetime, Type)`](#format-3).
 
 Formats {Type, Datetime} tuple according to Format. The way in which
-Datetime will be handled depends on Type.<a name="format-3"></a>
+Datetime will be handled depends on Type.
+<a name="format-3"></a>
 
-###format/3##
+### format/3 ###
 
 
-<pre>format(Format::<a href="#type-format">format()</a>, Datetime::<a href="#type-datetime_value">datetime_value()</a>, Type::<a href="#type-datetime_type">datetime_type()</a>) -> {ok, binary()} | {error, invalid_time} | {error, time_overflow}</pre>
+<pre><code>
+format(Format::<a href="#type-format">format()</a>, Datetime::<a href="#type-datetime_value">datetime_value()</a>, Type::<a href="#type-datetime_type">datetime_type()</a>) -&gt; {ok, binary()} | {error, invalid_time} | {error, time_overflow}
+</code></pre>
+
 <br></br>
 
 
 Formats Datetime according to Format. The way in which
-Datetime will be handled depends on Type.<a name="format_datetime-2"></a>
+Datetime will be handled depends on Type.
+<a name="format_datetime-2"></a>
 
-###format_datetime/2##
+### format_datetime/2 ###
 
 
-<pre>format_datetime(Format::<a href="#type-format">format()</a>, Datetime::<a href="calendar.md#type-datetime">calendar:datetime()</a>) -> {ok, binary()} | {error, invalid_time} | {error, time_overflow}</pre>
+<pre><code>
+format_datetime(Format::<a href="#type-format">format()</a>, Datetime::<a href="calendar.md#type-datetime">calendar:datetime()</a>) -&gt; {ok, binary()} | {error, invalid_time} | {error, time_overflow}
+</code></pre>
+
 <br></br>
 
 
 Equivalent to [`format(Format, Datetime, datetime)`](#format-3).
 
-Helper function similar to [`format/3`](#format-3).<a name="format_now-2"></a>
+Helper function similar to [`format/3`](#format-3).
+<a name="format_now-2"></a>
 
-###format_now/2##
+### format_now/2 ###
 
 
-<pre>format_now(Format::<a href="#type-format">format()</a>, X2::<a href="erlang.md#type-timestamp">erlang:timestamp()</a>) -> {ok, binary()} | {error, invalid_time} | {error, time_overflow}</pre>
+<pre><code>
+format_now(Format::<a href="#type-format">format()</a>, X2::<a href="erlang.md#type-timestamp">erlang:timestamp()</a>) -&gt; {ok, binary()} | {error, invalid_time} | {error, time_overflow}
+</code></pre>
+
 <br></br>
 
 
 Equivalent to [`format(Format, Datetime, now)`](#format-3).
 
-Helper function similar to [`format/3`](#format-3).<a name="format_unix-2"></a>
+Helper function similar to [`format/3`](#format-3).
+<a name="format_unix-2"></a>
 
-###format_unix/2##
+### format_unix/2 ###
 
 
-<pre>format_unix(Format::<a href="#type-format">format()</a>, Timestamp::<a href="#type-unix_timestamp">unix_timestamp()</a>) -> {ok, binary()} | {error, invalid_time} | {error, time_overflow}</pre>
+<pre><code>
+format_unix(Format::<a href="#type-format">format()</a>, Timestamp::<a href="#type-unix_timestamp">unix_timestamp()</a>) -&gt; {ok, binary()} | {error, invalid_time} | {error, time_overflow}
+</code></pre>
+
 <br></br>
 
 
 Equivalent to [`format(Format, Datetime, timestamp)`](#format-3).
 
-Helper function similar to [`format/3`](#format-3).<a name="parse-2"></a>
+Helper function similar to [`format/3`](#format-3).
+<a name="parse-2"></a>
 
-###parse/2##
+### parse/2 ###
 
 
-<pre>parse(Format::<a href="#type-format">format()</a>, X2::{<a href="#type-datetime_type">datetime_type()</a>, binary()}) -> {ok, <a href="#type-datetime_value">datetime_value()</a>} | {error, format_mismatch}</pre>
+<pre><code>
+parse(Format::<a href="#type-format">format()</a>, X2::{<a href="#type-datetime_type">datetime_type()</a>, binary()}) -&gt; {ok, <a href="#type-datetime_value">datetime_value()</a>} | {error, format_mismatch}
+</code></pre>
+
 <br></br>
 
 
 Equivalent to [`parse(Format, DatetimeType, Binary)`](#parse-3).
 
 Parses {Type, Binary} tuple according to provided format, returns
-ok/error tuples with datetime in format that depends on atom Type.<a name="parse-3"></a>
+ok/error tuples with datetime in format that depends on atom Type.
+<a name="parse-3"></a>
 
-###parse/3##
+### parse/3 ###
 
 
-<pre>parse(Format::<a href="#type-format">format()</a>, Bin::binary(), Type::<a href="#type-datetime_type">datetime_type()</a>) -> {ok, <a href="#type-datetime_value">datetime_value()</a>} | {error, format_mismatch}</pre>
+<pre><code>
+parse(Format::<a href="#type-format">format()</a>, Bin::binary(), Type::<a href="#type-datetime_type">datetime_type()</a>) -&gt; {ok, <a href="#type-datetime_value">datetime_value()</a>} | {error, format_mismatch}
+</code></pre>
+
 <br></br>
 
 
 Parses Binary according to Format and returns ok/error tuple with
-datetime in format that depends on atom Type.<a name="parse_datetime-2"></a>
+datetime in format that depends on atom Type.
+<a name="parse_datetime-2"></a>
 
-###parse_datetime/2##
+### parse_datetime/2 ###
 
 
-<pre>parse_datetime(Format::<a href="#type-format">format()</a>, Bin::binary()) -> {ok, <a href="calendar.md#type-datetime">calendar:datetime()</a>} | {error, format_mismatch}</pre>
+<pre><code>
+parse_datetime(Format::<a href="#type-format">format()</a>, Bin::binary()) -&gt; {ok, <a href="calendar.md#type-datetime">calendar:datetime()</a>} | {error, format_mismatch}
+</code></pre>
+
 <br></br>
 
 
 Equivalent to [`parse(Format, Binary, datetime)`](#parse-3).
 
-Helper function similar to [`parse/3`](#parse-3).<a name="parse_now-2"></a>
+Helper function similar to [`parse/3`](#parse-3).
+<a name="parse_now-2"></a>
 
-###parse_now/2##
+### parse_now/2 ###
 
 
-<pre>parse_now(Format::<a href="#type-format">format()</a>, Bin::binary()) -> {ok, <a href="erlang.md#type-timestamp">erlang:timestamp()</a>} | {error, format_mismatch}</pre>
+<pre><code>
+parse_now(Format::<a href="#type-format">format()</a>, Bin::binary()) -&gt; {ok, <a href="erlang.md#type-timestamp">erlang:timestamp()</a>} | {error, format_mismatch}
+</code></pre>
+
 <br></br>
 
 
 Equivalent to [`parse(Format, Binary, now)`](#parse-3).
 
-Helper function similar to [`parse/3`](#parse-3).<a name="parse_unix-2"></a>
+Helper function similar to [`parse/3`](#parse-3).
+<a name="parse_unix-2"></a>
 
-###parse_unix/2##
+### parse_unix/2 ###
 
 
-<pre>parse_unix(Format::<a href="#type-format">format()</a>, Bin::binary()) -> {ok, <a href="#type-unix_timestamp">unix_timestamp()</a>} | {error, format_mismatch}</pre>
+<pre><code>
+parse_unix(Format::<a href="#type-format">format()</a>, Bin::binary()) -&gt; {ok, <a href="#type-unix_timestamp">unix_timestamp()</a>} | {error, format_mismatch}
+</code></pre>
+
 <br></br>
 
 

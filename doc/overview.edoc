@@ -1,6 +1,6 @@
 @title tempo [![Build Status](https://secure.travis-ci.org/selectel/tempo.png)](http://travis-ci.org/selectel/tempo)
-@author Dmitry Groshev <groshev@selectel.ru>
-@author Sergei Levedev <lebedev@selectel.ru>
+@author Dmitry Groshev <lambdadmitry@gmail.com>
+@author Sergei Levedev <superbobry@gmail.com>
 
 @doc
 `tempo' is a library for parsing and formatting dates in

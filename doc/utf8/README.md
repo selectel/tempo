@@ -20,8 +20,8 @@ Yes.
 
 ### <a name="How_can_I_use_it?">How can I use it?</a> ###
 
-The only two functions you have to remember are [`tempo:parse/2`](https://github.com/selectel/tempo/blob/master/doc/tempo.md#parse-2)
-and [`tempo:format/2`](https://github.com/selectel/tempo/blob/master/doc/tempo.md#format-2). Here are some examples:
+The only two functions you have to remember are [`tempo:parse/2`](tempo.md#parse-2)
+and [`tempo:format/2`](tempo.md#format-2). Here are some examples:
 
 ```
 1> {ok, Bin} = tempo:format(iso8601, {now, now()}).
@@ -53,5 +53,5 @@ unavoidable. Here's a shortlist of those we know of:
 
 
 <table width="100%" border="0" summary="list of modules">
-<tr><td><a href="https://github.com/selectel/tempo/blob/master/doc/tempo.md" class="module">tempo</a></td></tr></table>
+<tr><td><a href="tempo.md" class="module">tempo</a></td></tr></table>
 
