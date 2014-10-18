@@ -254,7 +254,16 @@ unload(ErlNifEnv* env UNUSED,
     return;
 }
 
-
+/* NOTE(Dmitry): we can't use -Wmissign-field-initializers here. The reason
+   is that ErlNifFunc and ErlNifEntry are changed in newer versions of Erlang,
+   accepting "flags" and "options" parameters to support dirty schedulers.
+   However, we can't change it here, because it will break Tempo for older
+   Erlang versions, therefore we rely upon backward compatibility (this is
+   intended by patch's author, see [1]).
+   [1]: https://github.com/erlang/otp/commit/e167bca85a86cc7a149d53da5cdd08b0905e71a6
+ */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 static ErlNifFunc tempo_funcs[] =
 {
     {"strptime", 2, tempo_strptime},
@@ -263,3 +272,4 @@ static ErlNifFunc tempo_funcs[] =
 
 
 ERL_NIF_INIT(tempo, tempo_funcs, &load, &reload, &upgrade, &unload)
+#pragma GCC diagnostic pop
