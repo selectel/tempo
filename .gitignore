@@ -7,3 +7,4 @@ deps/
 *.so
 .eunit/
 core
+c_src/tempo.d
