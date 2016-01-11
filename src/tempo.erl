@@ -188,7 +188,7 @@ format_datetime(Format, Datetime) ->
 %% @end
 -spec convert_format(format()) -> binary().
 convert_format(X) when is_binary(X) -> X;
-convert_format(iso8601) -> <<"%Y-%m-%dT%H:%M:%S%z">>;
+convert_format(iso8601) -> <<"%Y-%m-%dT%H:%M:%SZ">>;
 convert_format(rfc1123) -> <<"%a, %d %b %Y %H:%M:%S GMT">>;
 convert_format(rfc2822) -> <<"%a, %d %b %Y %H:%M:%S +0000">>;
 convert_format(X)       -> error(badarg, [X]).

@@ -4,7 +4,7 @@
 -include_lib("eunit/include/eunit.hrl").
 
 -define(TYPES, [unix, now, datetime]).
--define(ISO8601, "%Y-%m-%dT%H:%M:%S%z").
+-define(ISO8601, "%Y-%m-%dT%H:%M:%SZ").
 -define(EXTRASEQS, ["%a", "%A", "%b", "%B", "%c", "%d", "%F", "%H",
                     "%j", "%m", "%M", "%p", "%S", "%U", "%w",
                     "%W", "%x", "%X", "%y", "%Y"]).

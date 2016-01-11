@@ -25,9 +25,9 @@ and [`tempo:format/2`](https://github.com/selectel/tempo/blob/master/doc/tempo.m
 
 ```
 1> {ok, Bin} = tempo:format(iso8601, {now, now()}).
-{ok,<<"2013-01-05T13:29:18+0400">>}
+{ok,<<"2016-01-11T19:25:26Z">>}
 2> tempo:parse(iso8601, {datetime, Bin}).
-{ok,{{2013,1,5},{13,29,18}}}
+{ok,{{2016,1,11},{19,25,26}}}
 ```
 
 As you might have noticed, both of the functions follow a common
