@@ -1,6 +1,6 @@
 
 
-# tempo [![Build Status](https://secure.travis-ci.org/selectel/tempo.png)](http://travis-ci.org/selectel/tempo) #
+# tempo [![Build Status](https://travis-ci.org/selectel/tempo.svg)](http://travis-ci.org/selectel/tempo) #
 
 __Authors:__ Dmitry Groshev ([`lambdadmitry@gmail.com`](mailto:lambdadmitry@gmail.com)), Sergei Levedev ([`superbobry@gmail.com`](mailto:superbobry@gmail.com)).
 
