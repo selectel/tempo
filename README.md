@@ -1,6 +1,6 @@
 
 
-# tempo [![Build Status](https://travis-ci.org/selectel/tempo.svg)](http://travis-ci.org/selectel/tempo) #
+# tempo [![Build Status](https://github.com/selectel/tempo/workflows/build/badge.svg)](https://github.com/selectel/tempo) #
 
 __Authors:__ Dmitry Groshev ([`lambdadmitry@gmail.com`](mailto:lambdadmitry@gmail.com)), Sergei Levedev ([`superbobry@gmail.com`](mailto:superbobry@gmail.com)).
 
