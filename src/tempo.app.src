@@ -1,6 +1,6 @@
 {application, tempo,
  [{description, "NIF-based date and time parsing and formatting for Erlang."},
-  {vsn, "0.4.3"},
+  {vsn, "0.4.4"},
   {registered, []},
   {applications, [kernel, stdlib]}
  ]}.
